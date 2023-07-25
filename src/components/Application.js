@@ -4,60 +4,37 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import axios from "axios";
-
-const appointments = {
-  1: {
-    id: 1,
-    time: "12pm",
-  },
-  2: {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 3,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-  3: {
-    id: 3,
-    time: "2pm",
-  },
-  4: {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Archie Andrews",
-      interviewer: {
-        id: 4,
-        name: "Cohana Roy",
-        avatar: "https://i.imgur.com/FK8V841.jpg",
-      },
-    },
-  },
-  5: {
-    id: 5,
-    time: "4pm",
-  },
-};
+import { getAppointmentsForDay } from "helpers/selectors";
 
 export default function Application() {
-  const [days, setDays] = useState([]);
-  const [day, setDay] = useState("Monday");
+  // conbined state of the application
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+  });
 
+  // appointments for a specific day that is currently in our state
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  // function to set the state of `day`
+  const setDay = (day) => setState({ ...state, day });
+
+  // API calls to get the days and appointments & update the state after both have returned
   useEffect(() => {
-    axios.get(`/api/days`).then((response) => {
-      setDays(response.data);
+    Promise.all([axios.get(`/api/days`), axios.get(`/api/appointments`)]).then((all) => {
+      console.log("days", all[0].data);
+      console.log("appointments", all[1].data);
+      setState((prev) => ({ ...prev, days: all[0].data, appointments: all[1].data }));
     });
   }, []);
 
-  const appointmentList = Object.values(appointments).map((appointment) => {
+  // list of Appointment components created based on the dailyAppointments
+  const appointmentList = dailyAppointments.map((appointment) => {
     return <Appointment key={appointment.id} {...appointment} />;
   });
 
+  // last Appointment of the day that cannot be booked
   appointmentList.push(<Appointment key="last" time="5pm" />);
 
   return (
@@ -66,7 +43,7 @@ export default function Application() {
         <img className="sidebar--centered" src="images/logo.png" alt="Interview Scheduler" />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} value={day} onChange={setDay} />
+          <DayList days={state.days} value={state.day} onChange={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
