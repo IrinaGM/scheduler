@@ -21,6 +21,28 @@ export function getAppointmentsForDay(state, day) {
 }
 
 /**
+ * @param {String} day
+ * @param {Object} state
+ * @return the interviewers data object for the provided day
+ */
+
+export function getInterviewersForDay(state, day) {
+  const interviewersIds = state.days
+    .filter((dayObj) => dayObj.name === day)
+    .map((obj) => obj.interviewers);
+
+  if (interviewersIds.length === 0) {
+    return [];
+  }
+
+  const interviewersForDay = interviewersIds[0].map((id) => {
+    return state.interviewers[id];
+  });
+
+  return interviewersForDay;
+}
+
+/**
  * @param {Object} interview
  * @param {Object} state
  * @return the interview data object if the function is passed an object that contains an interviewer
