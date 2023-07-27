@@ -4,7 +4,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
 
 export default function Application() {
   // conbined state of the application
@@ -17,6 +17,9 @@ export default function Application() {
 
   // appointments for a specific day that is currently in our state
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  // interviewers for a specific day that is currently in our state
+  const interviewersForDay = getInterviewersForDay(state, state.day);
 
   // function to set the state of `day`
   const setDay = (day) => setState({ ...state, day });
@@ -45,6 +48,7 @@ export default function Application() {
         key={appointment.id}
         id={appointment.id}
         interview={interview}
+        interviewers={interviewersForDay}
         time={appointment.time}
       />
     );
