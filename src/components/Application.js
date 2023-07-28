@@ -38,8 +38,11 @@ export default function Application() {
       [id]: appointment,
     };
 
-    //update the application state to have the new appointment
-    setState((prevState) => ({ ...prevState, appointments }));
+    //API call to update to add the new interview to the DB
+    return axios.put(`/api/appointments/${id}`, { interview }).then((response) => {
+      //update the application state to have the new appointment
+      setState((prev) => ({ ...prev, appointments }));
+    });
   };
 
   // API calls to get the days and appointments & update the state after both have returned
