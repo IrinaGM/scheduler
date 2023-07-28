@@ -22,7 +22,28 @@ export default function Application() {
   const interviewersForDay = getInterviewersForDay(state, state.day);
 
   // function to set the state of `day`
-  const setDay = (day) => setState({ ...state, day });
+  const setDay = (day) => setState((prevState) => ({ ...prevState, day }));
+
+  //function to book an interview for an appointment time slot
+  const bookInterview = (id, interview) => {
+    // create appointment object based on the current state of the appointment and add the new values of the interview to it.
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+
+    //update the current appointments state with the new appointment
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    //API call to update to add the new interview to the DB
+    return axios.put(`/api/appointments/${id}`, { interview }).then((response) => {
+      //update the application state to have the new appointment
+      setState((prev) => ({ ...prev, appointments }));
+    });
+  };
 
   // API calls to get the days and appointments & update the state after both have returned
   useEffect(() => {
@@ -50,6 +71,7 @@ export default function Application() {
         interview={interview}
         interviewers={interviewersForDay}
         time={appointment.time}
+        bookInterview={bookInterview}
       />
     );
   });
