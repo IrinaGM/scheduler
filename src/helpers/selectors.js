@@ -1,7 +1,7 @@
 /**
- * @param {String} day
- * @param {Object} state
- * @return the appointments data object for the provided day
+ * @param {string} day
+ * @param {object} state
+ * @returns {([] | Array} appointments for the provided day
  */
 
 export function getAppointmentsForDay(state, day) {
@@ -21,9 +21,9 @@ export function getAppointmentsForDay(state, day) {
 }
 
 /**
- * @param {String} day
- * @param {Object} state
- * @return the interviewers data object for the provided day
+ * @param {string} day
+ * @param {object} state
+ * @returns {([] | array} the interviewers data object for the provided day
  */
 
 export function getInterviewersForDay(state, day) {
@@ -43,9 +43,9 @@ export function getInterviewersForDay(state, day) {
 }
 
 /**
- * @param {Object} interview
- * @param {Object} state
- * @return the interview data object if the function is passed an object that contains an interviewer
+ * @param {object} interview
+ * @param {object} state
+ * @returns {(null | object)}the interview data object if the function is passed an object that contains an interviewer
  */
 
 export function getInterview(state, interview) {
