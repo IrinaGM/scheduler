@@ -1,21 +1,3 @@
-/*
-The <Form> component should track the following state:
-
-student:String
-interviewer:Number
-The <Form> component should have the following actions:
-
-setStudent:Function
-setInterviewer:Function
-The <Form> component should take the following props:
-
-student:String
-interviewers:Array
-interviewer:Number
-onSave:Function
-onCancel:Function
-*/
-
 import React, { useState } from "react";
 
 import InterviewerList from "components/InterviewerList";
@@ -58,7 +40,7 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm onClick={() => props.onSave(student, interviewer)}>
+          <Button confirm onClick={() => props.onSave(student, interviewer.id)}>
             Save
           </Button>
         </section>
