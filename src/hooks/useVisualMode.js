@@ -3,8 +3,6 @@ import { useState } from "react";
 export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial]);
 
-  console.log({ history });
-
   const transition = (newMode, replace = false) => {
     if (replace) {
       //if replace is true, remove from history the last mode, and add the new one.
