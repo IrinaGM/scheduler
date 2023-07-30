@@ -46,6 +46,7 @@ export default function useApplicationData() {
    * function to book an interview for an appointment time slot
    * @param {number} id appointment id
    * @param {object} interview interview data for the appointment
+   * @param {boolean} isCreate true if mode is CREATE
    * @returns {promise} Promise to book the interview
    */
 
