@@ -1,6 +1,17 @@
 import React from "react";
 
 import "components/Appointment/styles.scss";
+import {
+  EMPTY,
+  SHOW,
+  CREATE,
+  SAVING,
+  DELETING,
+  CONFIRM,
+  EDIT,
+  ERROR_SAVE,
+  ERROR_DELETE,
+} from "../../constants";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -9,16 +20,6 @@ import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
-
-const EMPTY = "EMPTY";
-const SHOW = "SHOW";
-const CREATE = "CREATE";
-const SAVING = "SAVING";
-const DELETING = "DELETING";
-const CONFIRM = "CONFIRM";
-const EDIT = "EDIT";
-const ERROR_SAVE = "ERROR_SAVE";
-const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
@@ -76,17 +77,9 @@ export default function Appointment(props) {
   };
 
   /**
-   * handles the cancel event of appointment deletion
+   * handles the cancel event of appointment deletion and the close error window event
    */
-  const handleCancelDelete = () => {
-    back();
-  };
-
-  /**
-   * handles the close error window event
-   * @param {string} view
-   */
-  const handleCloseErrorMsg = () => {
+  const handleCancel = () => {
     back();
   };
 
@@ -110,7 +103,7 @@ export default function Appointment(props) {
       {mode === CONFIRM && (
         <Confirm
           message="Are you sure you would like to delete the interview?"
-          onCancel={handleCancelDelete}
+          onCancel={handleCancel}
           onConfirm={handleConfirmDelete}
         />
       )}
@@ -126,13 +119,13 @@ export default function Appointment(props) {
       {mode === ERROR_SAVE && (
         <Error
           message="An error occurred while trying saving the appointment, please try again"
-          onClose={handleCloseErrorMsg}
+          onClose={handleCancel}
         />
       )}
       {mode === ERROR_DELETE && (
         <Error
           message="An error occurred while trying deleting the appointment, please try again"
-          onClose={handleCloseErrorMsg}
+          onClose={handleCancel}
         />
       )}
     </article>
