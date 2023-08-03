@@ -63,7 +63,11 @@ export default function useApplicationData() {
   // function to set the state of `day`
   const setDay = (day) => dispatch({ type: SET_DAY, payload: day });
 
-  // function to update the spots remaining
+  /**
+   *  function to update the spots remaining
+   * @param {number} id appointment id
+   * @param {number} change add or substract 1
+   */
   const setSpotsRemaining = (id, change = 0) => {
     // create a new days state with the updated spots for a matching day
     const days = state.days.map((day) => {
