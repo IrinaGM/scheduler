@@ -1,9 +1,43 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
+
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
+const SET_SPOTS_REMAINING = "SET_SPOTS_REMAINING";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case SET_DAY: {
+      return { ...state, day: action.payload };
+    }
+    case SET_APPLICATION_DATA:
+      return {
+        ...state,
+        days: action.payload.days,
+        appointments: action.payload.appointments,
+        interviewers: action.payload.interviewers,
+      };
+    case SET_INTERVIEW: {
+      return {
+        ...state,
+        appointments: action.payload,
+      };
+    }
+    case SET_SPOTS_REMAINING: {
+      return {
+        ...state,
+        days: action.payload,
+      };
+    }
+    default:
+      throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
+  }
+}
 
 export default function useApplicationData() {
   // conbined state of the application
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
@@ -17,19 +51,23 @@ export default function useApplicationData() {
       axios.get(`/api/appointments`),
       axios.get(`/api/interviewers`),
     ]).then((all) => {
-      setState((prev) => ({
-        ...prev,
+      const data = {
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data,
-      }));
+      };
+      dispatch({ type: SET_APPLICATION_DATA, payload: data });
     });
   }, []);
 
   // function to set the state of `day`
-  const setDay = (day) => setState((prevState) => ({ ...prevState, day }));
+  const setDay = (day) => dispatch({ type: SET_DAY, payload: day });
 
-  // function to update the spots remaining
+  /**
+   *  function to update the spots remaining
+   * @param {number} id appointment id
+   * @param {number} change add or substract 1
+   */
   const setSpotsRemaining = (id, change = 0) => {
     // create a new days state with the updated spots for a matching day
     const days = state.days.map((day) => {
@@ -39,7 +77,7 @@ export default function useApplicationData() {
       return day;
     });
 
-    setState((prev) => ({ ...prev, days }));
+    dispatch({ type: SET_SPOTS_REMAINING, payload: days });
   };
 
   /**
@@ -68,7 +106,7 @@ export default function useApplicationData() {
       .put(`/api/appointments/${id}`, { interview })
       .then((response) => {
         //update the application state to have the new appointment
-        setState((prev) => ({ ...prev, appointments }));
+        dispatch({ type: SET_INTERVIEW, payload: appointments });
       })
       .then((response) => {
         if (isCreate) {
@@ -101,7 +139,7 @@ export default function useApplicationData() {
       .delete(`/api/appointments/${id}`, null)
       .then((response) => {
         //update the application state with the deleted the appointment
-        setState((prev) => ({ ...prev, appointments }));
+        dispatch({ type: SET_INTERVIEW, payload: appointments });
       })
       .then((response) => {
         setSpotsRemaining(id, +1);
