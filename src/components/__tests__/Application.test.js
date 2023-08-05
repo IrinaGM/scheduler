@@ -1,11 +1,21 @@
 import React from "react";
 
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent } from "@testing-library/react";
 
 import Application from "components/Application";
 
 afterEach(cleanup);
 
-it("renders without crashing", () => {
-  render(<Application />);
+it("defaults to Monday and changes the schedule when a new day is selected", () => {
+  // render the application
+  const { getByText } = render(<Application />);
+
+  //wait for the element with the text "Monday"
+  return waitForElement(() => getByText("Monday")).then(() => {
+    // click on Tuesday
+    fireEvent.click(getByText("Tuesday"));
+
+    // assert about the appointments to include "Leopold Silvers"
+    expect(getByText("Leopold Silvers")).toBeInTheDocument();
+  });
 });
