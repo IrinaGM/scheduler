@@ -26,6 +26,7 @@ export default function Form(props) {
     }
 
     props.onSave(student, interviewer.id);
+    setError("");
   };
 
   const [student, setStudent] = useState(props.student || "");
