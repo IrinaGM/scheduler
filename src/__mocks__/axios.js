@@ -81,4 +81,7 @@ export default {
         console.error(`Sorry there is no such ${url}`);
     }
   }),
+  put: jest.fn(() => {
+    return Promise.resolve({ status: 204, statusText: "No Content" });
+  }),
 };
