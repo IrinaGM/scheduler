@@ -14,6 +14,12 @@ The front end of this project is built with React and makes requests to an API t
 
 This project was developed as part of Lighthouse Labs Web Development course.
 
+## Demo
+
+![Home View](https://github.com/IrinaGM/scheduler/blob/master/docs/scheduler-1.png)
+![Scheduling Appointment](https://github.com/IrinaGM/scheduler/blob/master/docs/scheduler-2.png)
+![Validation](https://github.com/IrinaGM/scheduler/blob/master/docs/scheduler-3.png)
+
 ## Dependencies
 
 - [axios](https://www.npmjs.com/package/axios)
