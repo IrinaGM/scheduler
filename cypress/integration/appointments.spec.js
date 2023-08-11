@@ -36,7 +36,7 @@ describe("Appointments", () => {
     cy.contains(".appointment__card--show", "Lydia Miller-Jones").contains("Tori Malcolm");
   });
 
-  it.only("should cancel an interview", () => {
+  it("should cancel an interview", () => {
     // Clicks the delete button for the existing appointment
     cy.get("[alt='Delete']").click({ force: true });
     // Clicks the confirm button
@@ -45,7 +45,6 @@ describe("Appointments", () => {
     cy.contains("Deleting").should("exist");
     cy.contains("Deleting").should("not.exist");
 
-    cy.contains(".appointment__card--show", "Archie Cohen")
-    .should("not.exist");
+    cy.contains(".appointment__card--show", "Archie Cohen").should("not.exist");
   });
 });
