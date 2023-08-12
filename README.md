@@ -16,9 +16,7 @@ This project was developed as part of Lighthouse Labs Web Development course.
 
 ## Demo
 
-![Home View](https://github.com/IrinaGM/scheduler/blob/master/docs/scheduler-1.png)
-![Scheduling Appointment](https://github.com/IrinaGM/scheduler/blob/master/docs/scheduler-2.png)
-![Validation](https://github.com/IrinaGM/scheduler/blob/master/docs/scheduler-3.png)
+![Scheduler Demo](https://github.com/IrinaGM/scheduler/blob/update-readme-3/docs/Scheduler.gif)
 
 ## Dependencies
 
